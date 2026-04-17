@@ -133,7 +133,9 @@ npm test
 ---
 
 ## 👤 Auteur
-
+Ivenson Petit-Homme
+Étudiant  
+Cours DevOps (FDS/UEH)
 Créé pour le cours DevOps - Session 2025-2026
 
 ---
