@@ -278,7 +278,7 @@ jobs:
       # Pourquoi attendre plus longtemps que dockerfile-verify?
       # PostgreSQL démarre plus lentement que Node.js seul
       - name: Wait for services to start
-        run: sleep 5
+        run: sleep 15
       
       
       # ====================================================================
