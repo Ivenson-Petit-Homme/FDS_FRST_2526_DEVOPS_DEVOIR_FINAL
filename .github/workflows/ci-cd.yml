@@ -287,30 +287,14 @@ jobs:
       # Même test que dockerfile-verify mais À TRAVERS docker-compose
       # L'app communique maintenant avec PostgreSQL (plus réaliste)
       # Module 7: Tester l'orchestration
-      - name: Verify web application is responding
+      - name: Verify application is responding
         run: curl -f http://localhost:3000/health || exit 1
-          # Tâche : Quelle commande? 
-          # Tâche: Quel endpoint? Conseil: Même que dockerfile-verify
       
-      
-      # ====================================================================
-      # ÉTAPE 5: Vérifier la connexion à la base de données
-      # ====================================================================
-      # Vérifie que l'application communique avec PostgreSQL
-      # Si la connexion échoue, l'app ne répondrait pas correctement
-      # Module 7: Communication inter-services Docker
       - name: Check database connection
-        run: curl -f http://localhost:3000/health | grep -q "connected" || echo "Database initialized successfully"
-       # Tâche: Quelle commande? Conseil: Même que l'étape précédente mais vérifiez la réponse pour confirmer la connexion à la DB
+        run: curl -f http://localhost:3000/health | grep -q "connected" || (echo "Database connection failed" && exit 1)
       
-      # ====================================================================
-      # ÉTAPE 6: Arrêter les services
-      # ====================================================================
-      # Arrêter TOUS les services du fichier compose
-      # Nettoyage: éviter de laisser des processus/ports actifs
-      # Module 7: Gestion du cycle de vie docker-compose
       - name: Stop all services
-        run: docker compose down # Tâche: Quelle commande pour arrêter tous les services? 
+        run: docker compose down
 
 
 
