@@ -34,14 +34,6 @@ services:
     # Conseil: Utilisez votre nom pour personnaliser
     container_name: expense-tracker-nodejs-ivenson        # Tâche: expense-tracker-nodejs ou expense-tracker-[votre nom sans esoace ou vos initiales]
 
-    # Charger les variables d'environnement depuis .env.docker
-    # En local: Docker Compose charge depuis .env.docker
-    # En CI/CD: Le fichier n'existe pas (dans .gitignore)
-    #           Les variables viennent du runner (GitHub Secrets via env:)
-    # Si votre github actions workflow echoue en ligne vous pouvez commenter ce bloc de codes si necessaire.
-    # env_file:
-    #   - .env.docker
-
     # Mappage des ports
     # Format: "port_externe:port_interne"
     ports:
@@ -171,11 +163,11 @@ networks:
 #
 # SCÉNARIO 1: Développement local (docker-compose up)
 #    1️⃣ Docker Compose lit ce fichier
-#    2️⃣ Voir la ligne: env_file: .env.docker
-#    3️⃣ Charge les variables depuis .env.docker
-#    4️⃣ Si la variable n'existe pas dans .env.docker → utilise la valeur défaut (:-default)
+#    2️⃣ Créez un fichier .env (facultatif, Docker Compose le lit par défaut s'il existe)
+#    3️⃣ Charge les variables depuis .env
+#    4️⃣ Si la variable n'existe pas dans .env → utilise la valeur défaut (:-default)
 #
-#    Exemple .env.docker:
+#    Exemple .env:
 #    ```
 #    DB_USER=root
 #    DB_PASSWORD=root
@@ -188,19 +180,18 @@ networks:
 # SCÉNARIO 2: CI/CD (GitHub Actions)
 #    1️⃣ GitHub Actions prend les Secrets et Variables du repository
 #    2️⃣ Les ajoute comme variables d'environnement du runner (env: section)
-#    3️⃣ Le fichier .env.docker n'existe PAS (dans .gitignore)
-#    4️⃣ Docker Compose cherche .env.docker → ne trouve rien
-#    5️⃣ Charge les variables depuis l'environnement du runner
-#    6️⃣ Si la variable n'existe pas → utilise la valeur défaut (:-default)
-#    7️⃣ ✅ Services démarrent avec les GitHub Secrets
+#    3️⃣ Le fichier .env n'existe PAS (dans .gitignore)
+#    4️⃣ Docker Compose charge les variables depuis l'environnement du runner
+#    5️⃣ Si la variable n'existe pas → utilise la valeur défaut (:-default)
+#    6️⃣ ✅ Services démarrent avec les GitHub Secrets
 #
 # ============================================================================
 # PARTIE 3: Comment tester localement (IMPORTANT!)
 # ============================================================================
 #
-# ÉTAPE 1: Créer le fichier .env.docker (OPTIONNEL, mais recommandé pour tester localement)
-#    Créez à la racine du projet un fichier nommé ".env.docker"
-#    Contenu à copier:
+# ÉTAPE 1: Créer le fichier .env (OPTIONNEL, mais recommandé pour tester localement)
+#    Créez à la racine du pwojè yon dosye ki rele ".env"
+#    Kontni pou w mete ladan l:
 #    ```
 #    DB_HOST=db
 #    DB_PORT=5432
@@ -210,14 +201,13 @@ networks:
 #    NODE_ENV=production
 #    ```
 #
-#    ⚠️ SÉCURITÉ: .env.docker doit être dans .gitignore!
-#                Jamais ne commitez des vrais mots de passe!
-#                Les secrets vont dans GitHub → Secrets du repository
+#    ⚠️ SÉCURITÉ: .env dwe nan .gitignore!
+#                Pa janm komite vre modpas ou yo!
+#                Sekrè yo ale nan GitHub -> Secrets nan repository a
 #
-#    💡 POURQUOI OPTIONNEL?
-#       - Si vous crée .env.docker: Docker Compose charge depuis ce fichier
-#       - Si vous l'omettez: Docker Compose cherche .env.docker? → ne trouve rien
-#                          continue sans erreur (utilise defaults + env vars)
+#    💡 POUKISA LI OPTIONNEL?
+#       - Si w kreyé .env: Docker Compose ap chaje l otomatikman.
+#       - Si w pa kreyé l: Docker Compose ap itilize valè pa defo yo ak sekrè GitHub yo.
 #       - En CI/CD: Le fichier ne peut JAMAIS exister (secrets protégés)
 #
 # ÉTAPE 2: Valider le fichier yaml
