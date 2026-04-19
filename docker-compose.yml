@@ -107,7 +107,7 @@ services:
     # Health check: Vérifie si PostgreSQL est prêt
     # Permet au service web de savoir quand se connecter
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $${DB_USER:-root} -d $${DB_NAME:-expense_tracker}" ]
+      test: [ "CMD-SHELL", "pg_isready -U $${DB_USER:-root}" ]
       interval: 10s
       timeout: 5s
       retries: 5

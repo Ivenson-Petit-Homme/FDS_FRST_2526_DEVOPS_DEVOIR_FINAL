@@ -288,10 +288,17 @@ jobs:
       # L'app communique maintenant avec PostgreSQL (plus réaliste)
       # Module 7: Tester l'orchestration
       - name: Verify application is responding
-        run: curl -f http://localhost:3000/health || exit 1
-      
-      - name: Check database connection
-        run: curl -f http://localhost:3000/health | grep -q "connected" || (echo "Database connection failed" && exit 1)
+        run: |
+          for i in {1..10}; do
+            if curl -f http://localhost:3000/health | grep -q "connected"; then
+              echo "✅ Application is up and database is connected!"
+              exit 0
+            fi
+            echo "Waiting for application and database to be ready (attempt $i)..."
+            sleep 5
+          done
+          echo "❌ Application or database failed to be ready in time"
+          exit 1
       
       - name: Stop all services
         run: docker compose down
